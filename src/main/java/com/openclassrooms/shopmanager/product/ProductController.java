@@ -41,8 +41,13 @@ public class ProductController {
     }
 
     @PostMapping("/admin/product")
-    public String createProduct(@Valid @ModelAttribute("productModel") ProductModel productModel, BindingResult result)
+    public String createProduct(@Valid @ModelAttribute("product") ProductModel productModel, BindingResult result)
     {
+    	/*  
+    	 *  previously @ModelAttribute was "productModel" and it needs to be changed in "product" to validate Messages   	   
+    	 *  and errors from ProductModel.java and product.html
+     	 */
+    	
         //TODO implement form fields validation using the standard annotations in ProductModel cloass
         // Business constraints for each field is commented against it
         // Add proper error messages for each error and show all of them at the top of the page
