@@ -37,8 +37,9 @@ public class ProductService {
     public Product getByProductId(Long productId){
         return productRepository.findById(productId).get();
     }
-
-    public void createProduct(ProductModel productModel){
+    
+    //we need to return "Product" to enable this to be testable
+    public Product createProduct(ProductModel productModel){
         Product product = new Product();
         product.setDescription(productModel.getDescription());
         product.setDetails(productModel.getDetails());
@@ -46,7 +47,7 @@ public class ProductService {
         product.setPrice(Double.parseDouble(productModel.getPrice()));
         product.setQuantity(Integer.parseInt(productModel.getQuantity()));
 
-        productRepository.save(product);
+        return productRepository.save(product);
     }
 
     public void deleteProduct(Long productId){
