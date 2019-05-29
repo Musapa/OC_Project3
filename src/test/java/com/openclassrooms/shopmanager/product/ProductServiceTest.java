@@ -6,6 +6,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import com.openclassrooms.shopmanager.order.Cart;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -135,8 +137,37 @@ public class ProductServiceTest {
     }
    
     @Test
-    public void updateProductQuantities(){
-    	fail("Test fail");
+    public void updateProductQuantitiesDelete(){
+    	
+    	Product product = new Product();
+        product.setId(1L);
+        product.setName("First product");
+        product.setQuantity(1);
+
+        Cart cart = new Cart();
+        cart.addItem(product, 1);
+        
+        when(productRepository.findById(1L)).thenReturn(Optional.of(product));       
+    	productService.updateProductQuantities(cart);
+    	verify(productRepository, times(1)).delete(product);
+  
+    }
+    
+    @Test
+    public void updateProductQuantitiesSave(){
+    	
+    	Product product = new Product();
+        product.setId(1L);
+        product.setName("First product");
+        product.setQuantity(10);
+
+        Cart cart = new Cart();
+        cart.addItem(product, 1);
+        
+        when(productRepository.findById(1L)).thenReturn(Optional.of(product));       
+    	productService.updateProductQuantities(cart);
+    	verify(productRepository, times(1)).save(product);
+  
     } 
     
 }
