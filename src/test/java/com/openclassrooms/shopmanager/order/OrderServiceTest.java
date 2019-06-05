@@ -5,8 +5,13 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 
+import com.openclassrooms.shopmanager.product.Product;
 import com.openclassrooms.shopmanager.product.ProductService;
+
+import static org.mockito.Mockito.when;
+
 
 public class OrderServiceTest {
 
@@ -20,28 +25,33 @@ public class OrderServiceTest {
 	private ProductService productService;
 	
 	@Test
-	public void OrderService() {
-		fail("Not yet implemented");
-	}
-	
-	@Test
 	public void addToCart() {
-		fail("Not yet implemented");
+		
+		Product product = new Product();
+		product.setId(1L);
+
+		when(productService.getByProductId(1L)).thenReturn(product);
+		boolean result = orderService.addToCart(product.getId());
+
+		assertEquals(true, result);
 	}
 	
 	@Test
 	public void saveOrder() {
 		fail("Not yet implemented");
 	}
-	
-	@Test
-	public void getCart() {
-		fail("Not yet implemented");
-	}
-			
+		
 	@Test
 	public void removeFromCart() {
-		fail("Not yet implemented");
+		
+		Product product = new Product();
+		product.setId(1L);
+
+		when(productService.getByProductId(1L)).thenReturn(product);
+		orderService.addToCart(product.getId());
+
+		orderService.removeFromCart(product.getId());
+
 	}
 	
 	@Test
