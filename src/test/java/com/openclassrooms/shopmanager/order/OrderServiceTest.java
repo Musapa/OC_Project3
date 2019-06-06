@@ -3,16 +3,23 @@ package com.openclassrooms.shopmanager.order;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import com.openclassrooms.shopmanager.product.Product;
 import com.openclassrooms.shopmanager.product.ProductService;
 
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.Optional;
 
+@RunWith(MockitoJUnitRunner.class)
 public class OrderServiceTest {
 
 	@InjectMocks
@@ -38,7 +45,17 @@ public class OrderServiceTest {
 	
 	@Test
 	public void saveOrder() {
-		fail("Not yet implemented");
+		
+		Order order = new Order();
+        order.setId(1L);
+        
+        // seting argumnetCapture
+        ArgumentCaptor<Order> arg = ArgumentCaptor.forClass(Order.class);   
+    	orderService.saveOrder(order);
+    	// verify save is called once and capturing argument
+    	verify(orderRepository, times(1)).save(arg.capture());
+    	// check if argumentCaptor was the order we created above
+		assertEquals(order, arg.getValue());
 	}
 		
 	@Test
@@ -51,17 +68,28 @@ public class OrderServiceTest {
 		orderService.addToCart(product.getId());
 
 		orderService.removeFromCart(product.getId());
+		
+		Cart cart = orderService.getCart();
+		assertEquals(0, cart.getCartLineList().size());
 
 	}
 	
 	@Test
 	public void isCartEmpty() {
-		fail("Not yet implemented");
+		assertEquals(true, orderService.isCartEmpty());
 	}
 	
 	@Test
 	public void createOrder() {
-		fail("Not yet implemented");
+			
+		Order order = new Order();
+		// seting argumnetCapture
+        ArgumentCaptor<Order> arg = ArgumentCaptor.forClass(Order.class);   
+    	orderService.createOrder(order);
+    	// verify save is called once and capturing argument
+    	verify(orderRepository, times(1)).save(arg.capture());
+    	// check if argumentCaptor was the order we created above
+		assertEquals(order, arg.getValue());
 	}
 
 }
