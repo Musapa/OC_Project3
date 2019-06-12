@@ -85,6 +85,7 @@ public class ProductServiceTest {
         product.setId(1L);
         product.setName("First product");
         
+        // we write optional because return type "public Optional<T> findById(ID id)"
         when(productRepository.findById(1L)).thenReturn(Optional.of(product));
         
         Product productFound = productService.getByProductId(product.getId());
@@ -115,7 +116,7 @@ public class ProductServiceTest {
         productModel.setPrice(String.valueOf(product.getPrice()));          
         productModel.setQuantity(String.valueOf(product.getQuantity()));
         
-        //Product productCreate = productService.createProduct();
+        
         Product productCreate = productService.createProduct(productModel);
         
         assertEquals(1L, productCreate.getId(), 0);
@@ -131,6 +132,7 @@ public class ProductServiceTest {
         
     	Long productIdTest = 1L;
     	
+    	// we check that deleteById is called once
     	productService.deleteProduct(productIdTest);
     	verify(productRepository, times(1)).deleteById(productIdTest);
         
