@@ -7,7 +7,6 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.openclassrooms.shopmanager.product.Product;
@@ -17,7 +16,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.Optional;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OrderServiceTest {
@@ -49,7 +47,7 @@ public class OrderServiceTest {
 		Order order = new Order();
         order.setId(1L);
         
-        // seting argumnetCapture
+        // setting argumnetCapture
         ArgumentCaptor<Order> arg = ArgumentCaptor.forClass(Order.class);   
     	orderService.saveOrder(order);
     	// verify save is called once and capturing argument
@@ -83,7 +81,7 @@ public class OrderServiceTest {
 	public void createOrder() {
 			
 		Order order = new Order();
-		// seting argumnetCapture
+		// setting argumnetCapture
         ArgumentCaptor<Order> arg = ArgumentCaptor.forClass(Order.class);   
     	orderService.createOrder(order);
     	// verify save is called once and capturing argument
