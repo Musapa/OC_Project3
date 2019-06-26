@@ -46,7 +46,7 @@ public class ProductControllerTest {
 	@MockBean
 	private ProductService productService;
 
-	/* initialize Mockmvc */
+	/* initialize MockMvc */
 	@Before
 	public void setupMockmvc() {
 		mockMvc = MockMvcBuilders.webAppContextSetup(webContext).build();
@@ -62,7 +62,7 @@ public class ProductControllerTest {
 
 	/* check if error is thrown when we post product without name */
 	@Test
-	public void createProductwithoutName() throws Exception {
+	public void createProductWithoutName() throws Exception {
 		mockMvc.perform(post("/admin/product").param("price", "2.0").param("quantity", "10"))
 				.andExpect(view().name("product")).andExpect(model().errorCount(1))
 				.andExpect(model().attributeHasFieldErrors("product", "name")).andExpect(status().isOk());
@@ -70,7 +70,7 @@ public class ProductControllerTest {
 
 	/* check if error is thrown when we post product without price */
 	@Test
-	public void createProductwithoutPrice() throws Exception {
+	public void createProductWithoutPrice() throws Exception {
 		mockMvc.perform(post("/admin/product").param("name", "Nokia").param("quantity", "10"))
 				.andExpect(view().name("product")).andExpect(model().errorCount(1))
 				.andExpect(model().attributeHasFieldErrors("product", "price")).andExpect(status().isOk());
@@ -78,23 +78,23 @@ public class ProductControllerTest {
 
 	/* check if error is thrown when we post product without quantity */
 	@Test
-	public void createProductwithoutQuantity() throws Exception {
+	public void createProductWithoutQuantity() throws Exception {
 		mockMvc.perform(post("/admin/product").param("name", "Nokia").param("price", "2.0"))
 				.andExpect(view().name("product")).andExpect(model().errorCount(1))
 				.andExpect(model().attributeHasFieldErrors("product", "quantity")).andExpect(status().isOk());
 	}
 
-	/* check if error is thrown when we post product withit invalid quantity */
+	/* check if error is thrown when we post product with it invalid quantity */
 	@Test
-	public void createProductwithoutInvalidQuantity() throws Exception {
+	public void createProductWithInvalidQuantity() throws Exception {
 		mockMvc.perform(post("/admin/product").param("name", "Nokia").param("price", "2.0").param("quantity", "aa"))
 				.andExpect(view().name("product")).andExpect(model().errorCount(1))
 				.andExpect(model().attributeHasFieldErrors("product", "quantity")).andExpect(status().isOk());
 	}
 
-	/* check if error is thrown when we post product withit invalid price */
+	/* check if error is thrown when we post product with it invalid price */
 	@Test
-	public void createProductwithoutInvalidPrice() throws Exception {
+	public void createProductWithInvalidPrice() throws Exception {
 		mockMvc.perform(post("/admin/product").param("name", "Nokia").param("price", "aa").param("quantity", "10"))
 				.andExpect(view().name("product")).andExpect(model().errorCount(1))
 				.andExpect(model().attributeHasFieldErrors("product", "price")).andExpect(status().isOk());
