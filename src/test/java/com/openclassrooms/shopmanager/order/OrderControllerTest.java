@@ -19,6 +19,8 @@ import com.openclassrooms.shopmanager.product.ProductModel;
 import com.openclassrooms.shopmanager.product.ProductRepository;
 import com.openclassrooms.shopmanager.product.ProductService;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
@@ -27,9 +29,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import javax.validation.Valid;
 
-//@DataJpaTest
-//@WebMvcTest
-//@ContextConfiguration(classes=Application.class)
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class OrderControllerTest {
@@ -41,11 +40,7 @@ public class OrderControllerTest {
 	@Autowired
 	private ProductRepository productRepository;
 	@Autowired
-	private ProductService productService;
-	@Autowired
 	private OrderRepository orderRepository;
-	@Autowired
-	private OrderService orderService;
 
 	private Product product;
 
@@ -66,6 +61,7 @@ public class OrderControllerTest {
 		product.setQuantity(10);
 
 		product = productRepository.save(product);
+
 	}
 
 	@After
@@ -79,12 +75,17 @@ public class OrderControllerTest {
 				.andExpect(view().name("redirect:/order/cart")).andExpect(model().errorCount(0))
 				.andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/order/cart"));
 	}
-	
+
+	/*
+	 * @Test public void addToCartFailTest() throws Exception { // when we passed
+	 * invalidID there is internal server error "5xx"
+	 * mockMvc.perform(post("/order/addToCart").param("productId",
+	 * "100")).andExpect(status().is5xxServerError()); assertTrue(true); }
+	 */
 	@Test
 	public void addToCartFailTest() throws Exception {
-		mockMvc.perform(post("/order/addToCart").param("productId", product.getId().toString()))
-				.andExpect(view().name("redirect:/products")).andExpect(model().errorCount(0))
-				.andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/products"));
+		mockMvc.perform(post("/order/addToCart").param("productId", "100")).andExpect(view().name("error"))
+				.andExpect(status().is5xxServerError());
 	}
 
 	@Test
@@ -93,21 +94,19 @@ public class OrderControllerTest {
 				.andExpect(view().name("redirect:/order/cart")).andExpect(model().errorCount(0))
 				.andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/order/cart"));
 	}
-    
-	@Test
-    public void getValidOrderFormTest() {
-    }
-	
+
 	@Test
 	public void createValidOrderTest() throws Exception {
-			mockMvc.perform(post("/order").param("order", "1L"))
-					.andExpect(view().name("orderCompleted")).andExpect(model().errorCount(0))
-					.andExpect(model().attributeHasNoErrors("order", "id")).andExpect(status().isOk());		
+		mockMvc.perform(post("/order").param("order", "1L")).andExpect(view().name("orderCompleted"))
+				.andExpect(model().errorCount(0)).andExpect(status().isOk());
 	}
-	
+
 	@Test
 	public void createEmptyOrderTest() throws Exception {
-			
+		orderRepository.clear(); // clear orderRepository to force error
+		// order class has no validation so you can pass invalid bean properties
+		mockMvc.perform(post("/order").param("nameX", "hello")).andExpect(view().name("order"))
+				.andExpect(model().errorCount(1)).andExpect(status().isOk());
 	}
-	
+
 }

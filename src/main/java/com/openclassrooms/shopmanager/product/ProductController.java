@@ -41,8 +41,8 @@ public class ProductController {
     }
 
 	/*  
-	 *  previously @ModelAttribute was "productModel" and it needs to be changed in "product" to validate Messages   	   
-	 *  and errors from ProductModel.java and product.html
+	 *  Previously @ModelAttribute was "productModel" and it needs to be changed in "product" 
+	 *  because “product.html” is using “product” not “productModel”.
  	 */
     @PostMapping("/admin/product")
     public String createProduct(@Valid @ModelAttribute("product") ProductModel productModel, BindingResult result)

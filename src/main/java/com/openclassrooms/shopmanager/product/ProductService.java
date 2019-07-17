@@ -12,65 +12,62 @@ import java.util.Optional;
 
 @Service
 public class ProductService {
-    private static final Logger log = LoggerFactory.getLogger(ProductService.class);
+	private static final Logger log = LoggerFactory.getLogger(ProductService.class);
 
-    private ProductRepository productRepository;
+	private ProductRepository productRepository;
 
-    @Autowired
-    public ProductService(ProductRepository repository) {
-        this.productRepository = repository;
-    }
+	@Autowired
+	public ProductService(ProductRepository repository) {
+		this.productRepository = repository;
+	}
 
-    /**
-     * @return all products from the inventory
-     */
-    public List<Product> getAllProducts() {
+	/**
+	 * @return all products from the inventory
+	 */
+	public List<Product> getAllProducts() {
 
-        return productRepository.findAll();
-    }
+		return productRepository.findAll();
+	}
 
-    public List<Product> getAllAdminProducts() {
+	public List<Product> getAllAdminProducts() {
 
-        return productRepository.findAllByOrderByIdDesc();
-    }
+		return productRepository.findAllByOrderByIdDesc();
+	}
 
-    public Product getByProductId(Long productId){
-        return productRepository.findById(productId).get();
-    }
-    
-    //we need to return "Product" to enable this to be testable
-    public Product createProduct(ProductModel productModel){
-        Product product = new Product();
-        product.setDescription(productModel.getDescription());
-        product.setDetails(productModel.getDetails());
-        product.setName(productModel.getName());
-        product.setPrice(Double.parseDouble(productModel.getPrice()));
-        product.setQuantity(Integer.parseInt(productModel.getQuantity()));
+	public Product getByProductId(Long productId) {
+		return productRepository.findById(productId).get();
+	}
 
-        return productRepository.save(product);
-    }
+	// we need to return "Product" to enable this to be testable
+	public Product createProduct(ProductModel productModel) {
+		Product product = new Product();
+		product.setDescription(productModel.getDescription());
+		product.setDetails(productModel.getDetails());
+		product.setName(productModel.getName());
+		product.setPrice(Double.parseDouble(productModel.getPrice()));
+		product.setQuantity(Integer.parseInt(productModel.getQuantity()));
 
-    public void deleteProduct(Long productId){
-        // TODO what happens if a product has been added to a cart and has been later removed from the inventory ?
-        // delete the product form the cart by using the specific method
-        // => the choice is up to the student
-        productRepository.deleteById(productId);
-    }
+		return productRepository.save(product);
+	}
 
-    public void updateProductQuantities(Cart cart){
+	public void deleteProduct(Long productId) {
+		productRepository.deleteById(productId);
+	}
 
-        for (CartLine cartLine : cart.getCartLineList()) {
-            Optional<Product> productOptional = productRepository.findById(cartLine.getProduct().getId());
-            if (productOptional.isPresent()){
-                Product product = productOptional.get();
-                product.setQuantity(product.getQuantity() - cartLine.getQuantity());
-                if (product.getQuantity()<1){
-                    productRepository.delete(product);
-                }else {
-                    productRepository.save(product);
-                }
-            }
-        }
-    }
+	public void updateProductQuantities(Cart cart) {
+
+		for (CartLine cartLine : cart.getCartLineList()) {
+			Optional<Product> productOptional = productRepository.findById(cartLine.getProduct().getId());
+			if (productOptional.isPresent()) {
+				Product product = productOptional.get();
+				product.setQuantity(product.getQuantity() - cartLine.getQuantity());
+				if (product.getQuantity() < 1) {
+					productRepository.delete(product);
+				} else {
+					productRepository.save(product);
+				}
+			}
+		}
+	}
 
 }

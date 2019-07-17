@@ -18,4 +18,9 @@ public class OrderRepository {
     {
         orders.add(order);
     }
+
+	public void clear() {
+		orders.clear();
+		
+	}
 }

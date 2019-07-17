@@ -1,5 +1,6 @@
 package com.openclassrooms.shopmanager.product;
 
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -15,7 +16,7 @@ public class ProductModel {
     @Min(value = 1, message = "Quantity must be greater than zero")
     private String  quantity;       // Required, Integer, Greater than zero
     @NotNull
-    @Min(value = 1, message = "Price must be greater than zero")
+    @DecimalMin("0.01")
     private String  price;          // Required, Numeric, Greater than zero
 
     public Long getId() {
