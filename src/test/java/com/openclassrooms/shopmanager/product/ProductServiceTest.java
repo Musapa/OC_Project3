@@ -1,5 +1,15 @@
 package com.openclassrooms.shopmanager.product;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -7,16 +17,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.openclassrooms.shopmanager.order.Cart;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-
-import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 /**
  * Take this test method as a template to write your test methods for
@@ -30,8 +30,7 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class ProductServiceTest {
 
-	//ProductService is dependant of ProductRepository - ubacuje sve metode iz te klase
-	
+	//ProductService is dependant of ProductRepository
 	//@InjectMock creates an instance of the class and injects the mocks that are marked with the annotations @Mock into it.
 	//the tested class should be annotated with @InjectMocks. This tells Mockito which class to inject mocks into
 	@InjectMocks

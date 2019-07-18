@@ -1,21 +1,18 @@
 package com.openclassrooms.shopmanager.order;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.openclassrooms.shopmanager.product.Product;
 import com.openclassrooms.shopmanager.product.ProductService;
-
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 
 @RunWith(MockitoJUnitRunner.class)
 public class OrderServiceTest {
@@ -28,10 +25,10 @@ public class OrderServiceTest {
 
 	@Mock
 	private ProductService productService;
-	
+
 	@Test
 	public void addToCart() {
-		
+
 		Product product = new Product();
 		product.setId(1L);
 
@@ -40,25 +37,20 @@ public class OrderServiceTest {
 
 		assertEquals(true, result);
 	}
-	
+
 	@Test
 	public void saveOrder() {
-		
+
 		Order order = new Order();
-        order.setId(1L);
-        
-        // setting argumnetCapture
-        ArgumentCaptor<Order> arg = ArgumentCaptor.forClass(Order.class);   
-    	orderService.saveOrder(order);
-    	// verify save is called once and capturing argument
-    	verify(orderRepository, times(1)).save(arg.capture());
-    	// check if argumentCaptor was the order we created above
-		assertEquals(order, arg.getValue());
+		order.setId(1L);
+
+		orderService.saveOrder(order);
+		verify(orderRepository, times(1)).save(order);
 	}
-		
+
 	@Test
 	public void removeFromCart() {
-		
+
 		Product product = new Product();
 		product.setId(1L);
 
@@ -66,28 +58,24 @@ public class OrderServiceTest {
 		orderService.addToCart(product.getId());
 
 		orderService.removeFromCart(product.getId());
-		
+
 		Cart cart = orderService.getCart();
 		assertEquals(0, cart.getCartLineList().size());
 
 	}
-	
+
 	@Test
 	public void isCartEmpty() {
 		assertEquals(true, orderService.isCartEmpty());
 	}
-	
+
 	@Test
 	public void createOrder() {
-			
+
 		Order order = new Order();
-		// setting argumnetCapture
-        ArgumentCaptor<Order> arg = ArgumentCaptor.forClass(Order.class);   
-    	orderService.createOrder(order);
-    	// verify save is called once and capturing argument
-    	verify(orderRepository, times(1)).save(arg.capture());
-    	// check if argumentCaptor was the order we created above
-		assertEquals(order, arg.getValue());
+
+		orderService.createOrder(order);
+		verify(orderRepository, times(1)).save(order);
 	}
 
 }
