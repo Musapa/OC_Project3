@@ -1,14 +1,15 @@
 package com.openclassrooms.shopmanager.product;
 
-import com.openclassrooms.shopmanager.order.Cart;
-import com.openclassrooms.shopmanager.order.CartLine;
+import java.util.List;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import com.openclassrooms.shopmanager.order.Cart;
+import com.openclassrooms.shopmanager.order.CartLine;
 
 @Service
 public class ProductService {
